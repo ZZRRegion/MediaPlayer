@@ -1,0 +1,57 @@
+﻿<Window x:Class="MediaPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MediaPlayer"
+        xmlns:player="clr-namespace:Unosquare.FFME;assembly=ffme"
+        xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        Title="媒体播放器" Height="450" Width="800">
+    <Border BorderBrush="Gray" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <DockPanel TextBlock.FontSize="25">
+                <TextBlock>
+                <Run Text="{x:Static local:RGCommon.Title}"/>
+                <Run Text="{x:Static local:RGCommon.Version}"/>
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Red"/>
+                            <GradientStop Color="Gray" Offset="0.5"/>
+                            <GradientStop Color="Blue" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <DockPanel>
+                    <Button x:Name="btnClose" Click="BtnClose_Click" Margin="0,0,10,0" HorizontalAlignment="Right" Background="{StaticResource back}"
+                            pu:ButtonHelper.ButtonStyle="Hollow" Width="35"
+                            pu:ButtonHelper.CornerRadius="5"
+                            pu:ButtonHelper.ClickStyle="Sink">
+                    </Button>
+                </DockPanel>
+            </DockPanel>
+            <Grid Grid.Row="1">
+                <player:MediaElement x:Name="player" Source="D:\BaiduNetdiskDownload\东京食尸鬼第2季(第10集)[高清].mp4" Stretch="Fill"/>
+                <Grid Height="60" Background="Gray" Opacity="0.7" VerticalAlignment="Bottom">
+                    <StackPanel HorizontalAlignment="Center" Height="50" VerticalAlignment="Center" Orientation="Horizontal">
+                        <Button x:Name="btnOpen" Click="BtnOpen_Click" Content="打开" Width="100"/>
+                        <Button x:Name="btnPlay" Click="BtnPlay_Click" Content="播放" Width="100"/>
+                        <StackPanel Width="200">
+                            <TextBlock FontSize="20" Foreground="Blue" x:Name="txtProgress" Text="00:00:00/00:00:00"/>
+                            <Slider Value="{Binding Path=Progress}" pu:SliderHelper.SliderStyle="Classic"
+                                    pu:SliderHelper.ThemeBrush="Transparent"  IsSnapToTickEnabled="True" pu:SliderHelper.IsTickValueVisible="True" Minimum="0" Maximum="100"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
