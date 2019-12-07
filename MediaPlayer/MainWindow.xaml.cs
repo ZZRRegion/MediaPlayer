@@ -88,12 +88,10 @@ namespace MediaPlayer
         {
             if(this.player.MediaState != MediaState.Play)
             {
-                this.btnPlay.Content = "暂停";
                 this.player.Play();
             }
             else
             {
-                this.btnPlay.Content = "播放";
                 this.player.Pause();
             }
         }
