@@ -22,14 +22,19 @@ namespace MediaPlayer
     /// </summary>
     public partial class MainWindow : Window,INotifyPropertyChanged
     {
-        private System.Windows.Threading.DispatcherTimer timer;
         public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register("Progress", typeof(int), typeof(MainWindow), new FrameworkPropertyMetadata(0, ProgressChanged));
+        public static readonly DependencyProperty TotalTimeSpanProperty = DependencyProperty.Register("TotalTimeSpan", typeof(TimeSpan), typeof(MainWindow));
+        public TimeSpan TotalTimeSpan
+        {
+            get => (TimeSpan)this.GetValue(TotalTimeSpanProperty);
+            set => this.SetValue(TotalTimeSpanProperty, value);
+        }
         public static void ProgressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             MainWindow mainWindow = d as MainWindow;
 
         }
-
+        
         /// <summary>
         /// 进度条
         /// </summary>
@@ -52,6 +57,10 @@ namespace MediaPlayer
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            if(e.ClickCount == 2)
+            {
+                this.WindowState = this.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+            }
             if(e.LeftButton == MouseButtonState.Pressed)
             {
                 this.DragMove();
@@ -91,17 +100,19 @@ namespace MediaPlayer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.timer = new System.Windows.Threading.DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromSeconds(1);
-            this.timer.Tick += Timer_Tick;
-            this.timer.Start();
+            
+        }
+        private void Player_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            this.TotalTimeSpan = this.player.NaturalDuration.TimeSpan;
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(this.player.MediaState == MediaState.Play)
+            if (this.player.MediaState == MediaState.Play)
             {
-                this.txtProgress.Text = $"{this.player.Position.ToLocalString()}/{this.player.NaturalDuration.TimeSpan.ToLocalString()}";
+                int progress = (int)(this.player.Position.TotalSeconds * 100 / this.player.NaturalDuration.TimeSpan.TotalSeconds);
+                this.Progress = progress;
             }
         }
     }

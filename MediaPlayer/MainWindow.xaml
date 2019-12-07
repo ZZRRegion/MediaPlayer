@@ -18,10 +18,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <DockPanel TextBlock.FontSize="25">
+            <DockPanel Margin="0,5,0,5" TextBlock.FontSize="25">
+                <Image Source="/Images/piece.png" Width="25" Margin="5,0,5,0"/>
                 <TextBlock>
-                <Run Text="{x:Static local:RGCommon.Title}"/>
-                <Run Text="{x:Static local:RGCommon.Version}"/>
+                    <Run Text="{x:Static local:RGCommon.Title}"/>
+                    <Run Text="{x:Static local:RGCommon.Version}"/>
                     <TextBlock.Foreground>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="Red"/>
@@ -31,7 +32,7 @@
                     </TextBlock.Foreground>
                 </TextBlock>
                 <DockPanel>
-                    <Button x:Name="btnClose" Click="BtnClose_Click" Margin="0,0,10,0" HorizontalAlignment="Right" Background="{StaticResource back}"
+                    <Button x:Name="btnClose" Click="BtnClose_Click" Margin="0,0,5,0" HorizontalAlignment="Right" Background="{StaticResource back}"
                             pu:ButtonHelper.ButtonStyle="Hollow" Width="35"
                             pu:ButtonHelper.CornerRadius="5"
                             pu:ButtonHelper.ClickStyle="Sink">
@@ -39,15 +40,20 @@
                 </DockPanel>
             </DockPanel>
             <Grid Grid.Row="1">
-                <player:MediaElement x:Name="player" Source="D:\BaiduNetdiskDownload\东京食尸鬼第2季(第10集)[高清].mp4" Stretch="Fill"/>
+                <player:MediaElement PropertyChanged="Player_PropertyChanged" MediaOpened="Player_MediaOpened" x:Name="player" Source="D:\BaiduNetdiskDownload\东京食尸鬼第2季(第10集)[高清].mp4" Stretch="Fill"/>
                 <Grid Height="60" Background="Gray" Opacity="0.7" VerticalAlignment="Bottom">
                     <StackPanel HorizontalAlignment="Center" Height="50" VerticalAlignment="Center" Orientation="Horizontal">
                         <Button x:Name="btnOpen" Click="BtnOpen_Click" Content="打开" Width="100"/>
-                        <Button x:Name="btnPlay" Click="BtnPlay_Click" Content="播放" Width="100"/>
+                        <Button x:Name="btnPlay" Click="BtnPlay_Click" Content="暂停" Width="100"/>
                         <StackPanel Width="200">
-                            <TextBlock FontSize="20" Foreground="Blue" x:Name="txtProgress" Text="00:00:00/00:00:00"/>
-                            <Slider Value="{Binding Path=Progress}" pu:SliderHelper.SliderStyle="Classic"
-                                    pu:SliderHelper.ThemeBrush="Transparent"  IsSnapToTickEnabled="True" pu:SliderHelper.IsTickValueVisible="True" Minimum="0" Maximum="100"/>
+                            <Slider Foreground="Blue" FontSize="15" Value="{Binding Path=Progress}" pu:SliderHelper.SliderStyle="Classic"
+                                    pu:SliderHelper.ThemeBrush="Transparent"  IsSnapToTickEnabled="True" pu:SliderHelper.IsTickValueVisible="False" pu:SliderHelper.Header="{Binding Path=Progress}" Minimum="0" Maximum="100"/>
+                            <TextBlock HorizontalAlignment="Center" FontSize="20" Foreground="Blue">
+                                <Run Text="{Binding ElementName=player,Path=Position,Converter={StaticResource ts2s}}"/>
+                                <Run Text="/"/>
+                                <Run Text="{Binding Path=TotalTimeSpan,Converter={StaticResource ts2s}}"/>
+                            </TextBlock>
+
                         </StackPanel>
                     </StackPanel>
                 </Grid>

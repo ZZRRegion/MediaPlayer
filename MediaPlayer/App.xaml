@@ -2,9 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:MediaPlayer"
+             xmlns:converters="clr-namespace:MediaPlayer.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <converters:Progress2StringConverter x:Key="p2s"/>
+            <converters:TimeSpan2StringConverter x:Key="ts2s"/>
             <ImageBrush x:Key="back" ImageSource="/Images/btn_close_b.png">
             </ImageBrush>
             <ImageBrush x:Key="normal" ImageSource="/Images/btn_close.png"/>

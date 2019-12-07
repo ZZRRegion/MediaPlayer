@@ -1,12 +1,12 @@
 ﻿/***********************************************
 * 说    明: 
 * CLR版 本：4.0.30319.42000
-* 命名空间：MediaPlayer
-* 类 名 称：RGCommon
-* 创建日期：2019/12/6 19:26:54
+* 命名空间：MediaPlayer.Converters
+* 类 名 称：Progress2StringConverter
+* 创建日期：2019/12/7 12:59:16
 * 作    者：ZZR
 * 版 本 号：4.0.30319.42000
-* 文 件 名：RGCommon
+* 文 件 名：Progress2StringConverter
 * 修改记录：
 *  R1：
 *	  修改作者：
@@ -15,25 +15,21 @@
 ***********************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using System.Windows.Controls;
-namespace MediaPlayer
+using System.Windows.Data;
+
+namespace MediaPlayer.Converters
 {
-    public static class RGCommon
+    public class Progress2StringConverter : IValueConverter
     {
         #region 构造函数
         #endregion
         #region Variables
-        public static string Title => "媒体播放器";
-        public static string Version => "1.0.0.0";
-        public static string VersionTime => "2019-12-07 20:00:00";
-        public static string ToLocalString(this TimeSpan @this)
-        {
-            return @this.ToString(@"hh\:mm\:ss");
-        }
         #endregion
         #region private Variables
         #endregion
@@ -43,5 +39,14 @@ namespace MediaPlayer
         #endregion
         #region Event
         #endregion
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
