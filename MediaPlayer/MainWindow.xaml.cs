@@ -107,7 +107,7 @@ namespace MediaPlayer
 
         private void Player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (this.player.MediaState == MediaState.Play)
+            if (this.player.MediaState == MediaState.Play && this.player.NaturalDuration.HasTimeSpan)
             {
                 int progress = (int)(this.player.Position.TotalSeconds * 100 / this.player.NaturalDuration.TimeSpan.TotalSeconds);
                 this.Progress = progress;
