@@ -24,6 +24,12 @@ namespace MediaPlayer
     {
         public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register("Progress", typeof(int), typeof(MainWindow), new FrameworkPropertyMetadata(0, ProgressChanged));
         public static readonly DependencyProperty TotalTimeSpanProperty = DependencyProperty.Register("TotalTimeSpan", typeof(TimeSpan), typeof(MainWindow));
+        public static readonly DependencyProperty IndexProperty = DependencyProperty.Register("Index", typeof(long), typeof(MainWindow));
+        public long Index
+        {
+            get => (long)this.GetValue(IndexProperty);
+            set => this.SetValue(IndexProperty, value);
+        }
         public TimeSpan TotalTimeSpan
         {
             get => (TimeSpan)this.GetValue(TotalTimeSpanProperty);
@@ -103,14 +109,40 @@ namespace MediaPlayer
         private void Player_MediaOpened(object sender, RoutedEventArgs e)
         {
             this.TotalTimeSpan = this.player.NaturalDuration.TimeSpan;
+            this.Index = 0;
         }
 
         private void Player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Console.WriteLine(e.PropertyName);
             if (this.player.MediaState == MediaState.Play && this.player.NaturalDuration.HasTimeSpan)
             {
                 int progress = (int)(this.player.Position.TotalSeconds * 100 / this.player.NaturalDuration.TimeSpan.TotalSeconds);
                 this.Progress = progress;
+                string name = $"{this.Index++}.png";
+                string fileName = RGCommon.GetFileName("images", name);
+                if (this.ckbToPng.IsChecked.HasValue && this.ckbToPng.IsChecked.Value)
+                {
+                    this.player.SaveAsImageFile(fileName);
+                    this.ckbToPng.Content = $"帧转图片:{this.Index}";
+                }
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    if(this.WindowState == WindowState.Maximized)
+                    {
+                        this.WindowState = WindowState.Normal;
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
+                    break;
             }
         }
     }

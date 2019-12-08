@@ -11,6 +11,7 @@
         WindowStyle="None"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown"
         Title="媒体播放器" Height="450" Width="800">
     <Border BorderBrush="Gray" BorderThickness="1">
         <Grid>
@@ -41,6 +42,7 @@
             </DockPanel>
             <Grid Grid.Row="1">
                 <player:MediaElement PropertyChanged="Player_PropertyChanged" MediaOpened="Player_MediaOpened" x:Name="player" Source="D:\BaiduNetdiskDownload\东京食尸鬼第2季(第10集)[高清].mp4" Stretch="Fill"/>
+                <pu:Badge Background="Blue" HorizontalAlignment="Left" VerticalAlignment="Top" IsWaving="{Binding ElementName=player,Path=IsPlaying}" Width="20" Height="20"/>
                 <Grid Height="60" Background="Gray" Opacity="0.5" VerticalAlignment="Bottom">
                     <StackPanel HorizontalAlignment="Center" Height="50" VerticalAlignment="Center" Orientation="Horizontal">
                         <Button BorderBrush="#FFCF2582" BorderThickness="2" x:Name="btnOpen" pu:ButtonHelper.PreviousBackground="Red" pu:ButtonHelper.CornerRadius="10" pu:ButtonHelper.ButtonStyle="Standard" pu:ButtonHelper.ClickStyle="Sink" Click="BtnOpen_Click" Content="打开" Width="80"/>
@@ -55,6 +57,8 @@
                             </TextBlock>
 
                         </StackPanel>
+                        <CheckBox x:Name="ckbToPng" Foreground="Blue" FontSize="30" Content="帧转图片" Margin="10,0,0,0" pu:CheckBoxHelper.BoxHeight="45" pu:CheckBoxHelper.BoxWidth="80" pu:CheckBoxHelper.CheckBoxStyle="Switch"/>
+
                     </StackPanel>
                 </Grid>
             </Grid>

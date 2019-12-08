@@ -18,8 +18,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 using System.Windows.Controls;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.IO;
+
 namespace MediaPlayer
 {
     public static class RGCommon
@@ -38,6 +43,25 @@ namespace MediaPlayer
         #region private Variables
         #endregion
         #region Methods
+        public static void SaveAsImageFile(this FrameworkElement @this, string fileName)
+        {
+            RenderTargetBitmap render = new RenderTargetBitmap((int)@this.ActualWidth, (int)@this.ActualHeight, 96, 96, PixelFormats.Default);
+            render.Render(@this);
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(render));
+            FileStream fileStream = File.Create(fileName);
+            encoder.Save(fileStream);
+            fileStream.Close();
+        }
+        public static string GetFileName(string directory, string name)
+        {
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            string fileName = Path.Combine(directory, name);
+            return fileName;
+        }
         #endregion
         #region private Methods
         #endregion
